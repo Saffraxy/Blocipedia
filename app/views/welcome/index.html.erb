@@ -1,5 +1,24 @@
-<h1>Welcome to Blocipedia</h1>
-<p id="index-title">This is the home page for Sylvia's Blocipedia.</p>
-<div class="posts">Placeholder in case I need something like this here.</div>
-<div class="posts">Or here.</div>
-<section>Placeholder for the content in a section element.</section>
+<br>
+ <div class="jumbotron">
+   <h1>Blocipedia</h1>
+   <p>Blocipedia is a Wiki resource for sharing info with others!</p>
+   <p>
+     <%= link_to "Sign In", new_session_path %> or
+     <%= link_to "Sign Up", new_user_path, class: 'btn btn-primary' %> today!
+   </p>
+ </div>
+
+ <div class="row">
+   <div class="col-md-4">
+     <h2>Info spot #1</h2>
+     <p>Blocipedia is amazing.</p>
+   </div>
+   <div class="col-md-4">
+     <h2>Info spot #2</h2>
+     <p>Blocipedia info spot #2 in Welcome index.</p>
+   </div>
+   <div class="col-md-4">
+     <h2>Info spot #3</h2>
+     <p>Blocipedia placeholder #3.</p>
+   </div>
+ </div>
