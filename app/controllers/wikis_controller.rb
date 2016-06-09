@@ -17,7 +17,7 @@ class WikisController < ApplicationController
   def create
     @wiki = Wiki.new(wiki_params)
 
-     if @wiki.save && (@wiki.public || user_is_authorized_for_private_wikis?)
+     if @wiki.save && (@wiki.public? || current_user.premium? || current_user.admin?)
        flash[:notice] = "Wiki was saved successfully."
        redirect_to @wiki
      else
@@ -32,10 +32,10 @@ class WikisController < ApplicationController
 
   def update
     @wiki = Wiki.find(params[:id])
-
     @wiki.assign_attributes(wiki_params)
-
-    if @wiki.save && (@wiki.public || user_is_authorized_for_private_wikis?)
+    authorize @wiki
+    if @wiki.update(wiki_params)
+  #  if @wiki.save && (@wiki.public? || current_user.premium? || current_user.admin?)
       flash[:notice] = "Wiki was saved successfully."
       redirect_to @wiki
     else
@@ -63,8 +63,8 @@ class WikisController < ApplicationController
     end
 
     def authorize_user
-       unless current_user.admin?
-         flash[:alert] = "You must be an admin to do that."
+       unless current_user.premium? || current_user.admin?
+         flash[:alert] = "You must be a premium member or an admin to do that."
          redirect_to wikis_path
        end
     end
