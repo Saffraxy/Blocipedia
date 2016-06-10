@@ -1,41 +1,41 @@
 class WikisController < ApplicationController
   before_action :require_sign_in, except: [:index, :show]
-  before_action :authorize_user, except: [:index, :show]
+  before_action :set_wiki, except: [:index, :new, :create]
 
   def index
-    @wikis = Wiki.visible_to(current_user)
+    @wikis = policy_scope(Wiki)
+    #@wikis = Wiki.visible_to(current_user)
   end
 
   def show
-    @wiki = Wiki.find(params[:id])
+    authorize @wiki
   end
 
   def new
     @wiki = Wiki.new
+    authorize @wiki
   end
 
   def create
     @wiki = Wiki.new(wiki_params)
 
-     if @wiki.save && (@wiki.public? || current_user.premium? || current_user.admin?)
-       flash[:notice] = "Wiki was saved successfully."
-       redirect_to @wiki
-     else
-       flash[:alert] = "You must be a premium member to create private wikis."
-       render :new
-     end
+    authorize @wiki
+    if @wiki.create(wiki_params)
+      flash[:notice] = "Wiki was saved successfully."
+      redirect_to @wiki
+    else
+      flash[:alert] = "Error saving wiki. Please try again."
+      render :edit
+    end
    end
 
   def edit
-    @wiki = Wiki.find(params[:id])
+    authorize @wiki
   end
 
   def update
-    @wiki = Wiki.find(params[:id])
-    @wiki.assign_attributes(wiki_params)
     authorize @wiki
     if @wiki.update(wiki_params)
-  #  if @wiki.save && (@wiki.public? || current_user.premium? || current_user.admin?)
       flash[:notice] = "Wiki was saved successfully."
       redirect_to @wiki
     else
@@ -45,8 +45,7 @@ class WikisController < ApplicationController
   end
 
   def destroy
-     @wiki = Wiki.find(params[:id])
-
+     authorize @wiki
      if @wiki.destroy
        flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
        redirect_to action: :index
@@ -56,16 +55,16 @@ class WikisController < ApplicationController
      end
    end
 
+
+
    private
 
     def wiki_params
       params.require(:wiki).permit(:title, :description, :public)
     end
 
-    def authorize_user
-       unless current_user.premium? || current_user.admin?
-         flash[:alert] = "You must be a premium member or an admin to do that."
-         redirect_to wikis_path
-       end
+    def set_wiki
+      @wiki = Wiki.find(params[:id])
     end
+
 end

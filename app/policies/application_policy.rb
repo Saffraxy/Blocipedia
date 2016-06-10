@@ -11,11 +11,11 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    record.public? || user.admin? || record.user == user
   end
 
   def create?
-    false
+    user.present?
   end
 
   def new?
@@ -23,7 +23,7 @@ class ApplicationPolicy
   end
 
   def update?
-    user.present?
+    show?
   end
 
   def edit?
@@ -31,11 +31,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
-  end
-
-  def scope
-    Pundit.policy_scope!(user, record.class)
+    update?
   end
 
   class Scope
@@ -47,7 +43,11 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope
+      if user.admin?
+        scope.all?
+      else
+        scope.where(public: true)
+      end
     end
   end
 end
