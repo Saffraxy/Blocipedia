@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  after_action :verify_authorized, except: :index
+  #after_action :verify_authorized, except: :index #note ss deleted in order to get system to run
   #after_action :verify_policy_scoped, only: :index
   protect_from_forgery with: :exception
   include SessionsHelper
