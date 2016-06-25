@@ -34,7 +34,4 @@ class ChargesController < ApplicationController
    }
  end
 
- def downgrade
-
- end
 end

@@ -7,11 +7,11 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    record.public? || user.admin? || user.premium?
   end
 
   def show?
-    record.public? || user.admin? || record.user == user
+    record.public? || user.admin? || user.premium?
   end
 
   def create?
@@ -44,9 +44,17 @@ class ApplicationPolicy
 
     def resolve
       if user.admin?
-        scope.all?
+        scope.all
+      elsif user.premium?
+        wikis = []
+        all_wikis = scope.all
+        all_wikis.each do |wiki|
+          # if the user is premium, only show them public wikis, or that private wikis they created, or private wikis they are a collaborator on
+          wikis << wiki if wiki.user == user || wiki.public? #|| wiki.users.include?(user)
+        end
+        wikis
       else
-        scope.where(public: true)
+        scope.where(public: true )
       end
     end
   end
