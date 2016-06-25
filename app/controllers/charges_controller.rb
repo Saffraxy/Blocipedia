@@ -11,7 +11,7 @@ class ChargesController < ApplicationController
    charge = Stripe::Charge.create(
      customer: customer.id, # Note -- this is NOT the user_id in your app
      amount: Amount.default,
-     description: "BigMoney Membership - #{current_user.email}",
+     description: "Premium Membership - #{current_user.email}",
      currency: 'usd'
    )
 
@@ -29,8 +29,12 @@ class ChargesController < ApplicationController
  def new
    @stripe_btn_data = {
      key: "#{ Rails.configuration.stripe[:publishable_key] }",
-     description: "BigMoney Membership - #{current_user.name}",
+     description: "Premium Membership - #{current_user.name}",
      amount: Amount.default
    }
+ end
+
+ def downgrade
+
  end
 end
