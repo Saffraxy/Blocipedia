@@ -32,6 +32,6 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? or not record.published?
+    record.public? || user.admin? || user.premium?
   end
 end
