@@ -22,7 +22,7 @@ class WikiPolicy < ApplicationPolicy
         all_wikis = scope.all
         all_wikis.each do |wiki|
           # if the user is premium, only show them public wikis, or that private wikis they created, or private wikis they are a collaborator on
-          wikis << wiki if wiki.user == user || wiki.public? #|| wiki.users.include?(user)
+          wikis << wiki #if wiki.user == user || wiki.public? #|| wiki.users.include?(user)
         end
         wikis
       else

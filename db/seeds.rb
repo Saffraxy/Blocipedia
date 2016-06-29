@@ -12,14 +12,16 @@ require 'random_data'
  standard = User.create!(
    name:     'Standard User',
    email:    'standard@example.com',
-   password: 'helloworld'
+   password: 'helloworld',
+   role:     'standard'
  )
 
  # Create a premium member
  premium = User.create!(
    name:     'Premium User',
    email:    'premium@example.com',
-   password: 'helloworld'
+   password: 'helloworld',
+   role:     'premium'
  )
 
 
