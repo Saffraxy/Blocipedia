@@ -36,7 +36,7 @@ class WikisController < ApplicationController
 
   def update
     authorize @wiki
-    @wiki.collaborators = params[:wiki][:user_id]
+
     if @wiki.update(wiki_params)
       flash[:notice] = "Wiki was saved successfully."
       redirect_to @wiki

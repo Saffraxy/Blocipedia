@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :wikis
   resources :charges, only: [:new, :create]
+  resources :collaborators, only: [:new, :create, :destroy]
 
   get 'welcome/index'
 

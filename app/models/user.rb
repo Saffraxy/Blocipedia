@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  has_many :wikis
   has_many :collaborators
   has_many :wikis, through: :collaborators
 
