@@ -1,4 +1,5 @@
 class WikisController < ApplicationController
+
   before_action :require_sign_in, except: [:index, :show]
   before_action :set_wiki, except: [:index, :new, :create]
 
@@ -35,6 +36,7 @@ class WikisController < ApplicationController
 
   def update
     authorize @wiki
+    @wiki.collaborators = params[:wiki][:user_id]
     if @wiki.update(wiki_params)
       flash[:notice] = "Wiki was saved successfully."
       redirect_to @wiki
