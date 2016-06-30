@@ -1,0 +1,34 @@
+<h1>Add a Collaborator To Your Private Wiki</h1>
+<div class="col-md-8">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<div class="field">
+			<% @users.each do |user| %>
+
+			    <div class="form-group">
+			    	<tr>
+			    		<td><%= user.name %></td>
+			    		<td><%= user.email %></td>
+			    		<td>
+								<% if @wiki.users.include?(user) %>
+									<% collaborator = @wiki.collaborator_for(user) %>
+									<%= link_to "Delete Collaborator", wiki_collaborator_path(@wiki, collaborator), method: :delete, class: "btn btn-danger" %>
+								<% else %>
+									<%= link_to "Add Collaborator", wiki_collaborators_path(@wiki, user_id: user.id), method: :post, class: "btn btn-success" %>
+								<% end %>
+								</td>
+			    		<td></td>
+			    	</tr>
+			    </div>
+			</div>
+			<% end %>
+		</tbody>
+	</table>
+</div>

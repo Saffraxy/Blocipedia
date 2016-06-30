@@ -7,7 +7,7 @@ class ApplicationPolicy
   end
 
   def index?
-    record.public? || user.admin? || user.premium?
+    true
   end
 
   def show?

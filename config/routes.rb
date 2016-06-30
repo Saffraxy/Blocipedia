@@ -2,9 +2,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create, :show]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :wikis
+  resources :wikis do
+    resources :collaborators, only: [:index, :create, :destroy]
+  end
   resources :charges, only: [:new, :create]
-  resources :collaborators, only: [:new, :create, :destroy]
+
 
   get 'welcome/index'
 

@@ -23,10 +23,11 @@
          <%= f.label :public, class: 'checkbox' do %>
            <%= f.check_box :public %> Public wiki
          <% end %>
-         <%= link_to "Add/Delete Collaborator", new_collaborator_path(@wiki), class: 'btn btn-primary' %>
+
        </div>
        <%= f.submit "Save", class: 'btn btn-success' %>
      <% end %>
-     
+     <%= link_to "Add/Delete Collaborator", wiki_collaborators_path(@wiki), class: 'btn btn-primary' %>
+
    </div>
  </div>
